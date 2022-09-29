@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS.FastPayments.AlfaBank", "src\CIS.FastPayments.AlfaBank\CIS.FastPayments.AlfaBank.csproj", "{F49D2D69-247A-4E0D-817D-DBB29FAF7934}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS.FastPayments.AlfaBank.Tests", "src\CIS.FastPayments.AlfaBank.Tests\CIS.FastPayments.AlfaBank.Tests.csproj", "{23F6DA89-B19C-485B-969B-D0A8F35F0504}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS.FastPayments.AlfaBank.Tests", "src\CIS.FastPayments.AlfaBank.Tests\CIS.FastPayments.AlfaBank.Tests.csproj", "{23F6DA89-B19C-485B-969B-D0A8F35F0504}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{66A86EFD-F303-49C3-8680-2BBE0C6FCFF0}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,6 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkFlow", "WorkFlow", "{B211166D-EA5D-4579-BC46-C390CF29085F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish-to-nuget.yml = .github\workflows\publish-to-nuget.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
