@@ -125,14 +125,14 @@ namespace CIS.FastPayments.AlfaBank.Helpers
         // вместо ImportPkcs8PrivateKey, ImportRSAPrivateKey, ImportPkcs8PrivateKey
         private static RSA CreateRsaProviderFromPrivateKey(string privateKey)
         {
-            var lines = privateKey.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var lines = privateKey.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
             var base64Key = string.Join(String.Empty,
             (
                 from s in lines
                 where !string.IsNullOrEmpty(s) && s[0] != '-'
                 select s
-             ).ToList().ToArray()).Replace(Environment.NewLine, String.Empty);
+             )).Replace("\n", "").Replace("\r", "");
 
             var privateKeyBytes = Convert.FromBase64String(base64Key);
 
