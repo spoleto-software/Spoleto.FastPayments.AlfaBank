@@ -18,9 +18,9 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// </summary>
         string Message { get; set; }
 
-        /// <summary>
-        /// Уникальный идентификатор терминала.
-        /// </summary>
-        int TerminalNumber { get; set; }
+        ///// <summary>
+        ///// Уникальный идентификатор терминала.
+        ///// </summary>
+        //int TerminalNumber { get; set; }
     }
 }

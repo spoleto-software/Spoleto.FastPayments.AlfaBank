@@ -17,7 +17,7 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// </remarks>
         [JsonPropertyName("command")]
         [Required]
-        public string Command { get; set; } = "GetQRCd";
+        public string Command { get; } = "GetQRCd";
 
         /// <summary>
         /// Уникальный идентификатор терминала.
@@ -33,7 +33,7 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// Обязательна при значении qrcType = 02.
         /// </remarks>
         [JsonPropertyName("amount")]
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
 
         /// <summary>
         /// Код валюты (для рублей должен передаваться «RUB»).

@@ -6,9 +6,9 @@ using CIS.Service.Client.Converters;
 namespace CIS.FastPayments.AlfaBank.Models
 {
     /// <summary>
-    /// Ответ на запрос для получения QR-кода.
+    /// Ответ на запрос для регистрация кассовой ссылки СБП.
     /// </summary>
-    public class QRCodeResponseModel : IAlfaResponse
+    public class QRСodeCashLinkResponseModel : IAlfaResponse
     {
         /// <summary>
         /// Код ответа.
@@ -47,23 +47,22 @@ namespace CIS.FastPayments.AlfaBank.Models
         public string Payload { get; set; }
 
         /// <summary>
-        /// Изображение QR-кода содержит энкодированный BASE64 файл изображения QR-кода 300х300 pix формата .png 
+        /// Тип картинки QR-кода.
         /// </summary>
-        [JsonPropertyName("image")]
+        [JsonPropertyName("mediaType")]
+        public string MediaType { get; set; }
+
+        /// <summary>
+        /// Base64-кодированные данные файла изображе-ния QR-кода. 
+        /// </summary>
+        [JsonPropertyName("content")]
         [Required]
-        public string Image { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
         /// Массив байтов изображения.
         /// </summary>
-        public byte[] ImageBytes => Image == null ? null : Convert.FromBase64String(Image);
-
-        /// <summary>
-        /// Референсный номер платежа.
-        /// </summary>
-        [JsonPropertyName("payrrn")]
-        [Required]
-        public string Payrrn { get; set; }
+        public byte[] ContentBytes => Content == null ? null : Convert.FromBase64String(Content);
 
         /// <summary>
         /// Статус ответа.

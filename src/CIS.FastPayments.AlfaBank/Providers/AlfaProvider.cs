@@ -40,5 +40,22 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
             return result;
         }
+
+        /// <summary>
+        ///  Регистрация Кассовой ссылки СБП.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        /// <returns></returns>
+        public async Task<QRСodeCashLinkResponseModel> RegQRСodeCashLinkAsync(AlfaOption settings, QRСodeCashLinkRequestModel requestModel)
+        {
+            var uri = new Uri(settings.ServiceUrl);
+
+            var jsonModel = JsonHelper.ToJson(requestModel);
+
+            var result = await InvokeAsync<QRСodeCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel);
+
+            return result;
+        }
     }
 }

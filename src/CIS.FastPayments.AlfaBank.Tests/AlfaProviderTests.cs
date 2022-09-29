@@ -21,22 +21,22 @@ namespace CIS.FastPayments.AlfaBank.Tests
         }
 
         [Test]
-        public void OpenSslVerify()
+        public void CryptoVerify()
         {
             // Arrange
             var model = new QRCodeRequestModel
             {
                 TerminalNumber = "90000018",
-                Amount = 1000000,
+                Amount = 10000000,
                 Currency = "RUB",
-                PaymentPurpose = "Оплата тестовой покупки"
+                PaymentPurpose = "Оплата тестовой покупки 5"
             };
             var json = JsonHelper.ToJson(model);
             var certificate = AlfaOption.DemoOption.Certificate;
 
             // Act
-            var signedData = CryptoHelper.Sign(certificate, json);
-            var isVerified = CryptoHelper.Verify(certificate, json, signedData);
+            var signedData = CryptoHelper.SignByCore(certificate, json);
+            var isVerified = CryptoHelper.VerifyByCore(certificate, json, signedData);
 
             // Assert
             Assert.True(isVerified);
@@ -49,18 +49,46 @@ namespace CIS.FastPayments.AlfaBank.Tests
             var provider = _serviceProvider.GetService<IAlfaProvider>();
 
             // Act
-            var qrCode = provider.GetQRCode(AlfaOption.DemoOption, new QRCodeRequestModel
+            var qrCode = provider.GetQRCode(AlfaOption.DemoOption, new()
             {
                 TerminalNumber = "90000018",
-                Amount = 1000000,
+                Amount = 10000000,
                 Currency = "RUB",
-                PaymentPurpose = "Оплата тестовой покупки"
+                PaymentPurpose = "Оплата тестовой покупки 5"
             });
 
-            qrCode.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
+            var image = qrCode.ToImage();
+
+            //qrCode.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
 
             // Assert
             Assert.NotNull(qrCode);
+            Assert.NotNull(qrCode.Image);
+            Assert.NotNull(image);
+        }
+
+        [Test]
+        public void RegCashQRСode()
+        {
+            // Arrange
+            var provider = _serviceProvider.GetService<IAlfaProvider>();
+
+            // Act
+            var qrCodeCashLink = provider.RegQRСodeCashLink(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Height = "500",
+                Width = "500"
+            });
+
+            var image = qrCodeCashLink.ToImage();
+
+            //qrCodeCashLink.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
+
+            // Assert
+            Assert.NotNull(qrCodeCashLink);
+            Assert.NotNull(qrCodeCashLink.Content);
+            Assert.NotNull(image);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
         {
             requestMessage.ConfigureRequestMessage();
 
-            var signedJsonContent = CryptoHelper.Sign(settings.Certificate, requestJsonContent);
+            var signedJsonContent = CryptoHelper.SignByCore(settings.Certificate, requestJsonContent);
 
             requestMessage.Headers.TryAddWithoutValidation("Authorization", signedJsonContent);
             requestMessage.Headers.Add("key-name", settings.Certificate.Name);

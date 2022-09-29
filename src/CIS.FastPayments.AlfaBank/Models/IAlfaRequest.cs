@@ -8,7 +8,7 @@
         /// <summary>
         /// Тип запроса.
         /// </summary>
-        string Command { get; set; }
+        string Command { get; }
 
         /// <summary>
         /// Уникальный идентификатор терминала.

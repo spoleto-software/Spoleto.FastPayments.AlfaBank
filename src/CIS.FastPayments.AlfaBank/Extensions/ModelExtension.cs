@@ -14,6 +14,12 @@ namespace CIS.FastPayments.AlfaBank.Extensions
 
         public static void SaveImageToFile(this QRCodeResponseModel responseMode, string filename)
             => ImageHelper.SaveImageToFile(responseMode.ImageBytes, filename);
-        
+
+        public static Image ToImage(this QRСodeCashLinkResponseModel responseModel)
+            => ImageHelper.ConvertToImage(responseModel.ContentBytes);
+
+        public static void SaveImageToFile(this QRСodeCashLinkResponseModel responseMode, string filename)
+            => ImageHelper.SaveImageToFile(responseMode.ContentBytes, filename);
+
     }
 }

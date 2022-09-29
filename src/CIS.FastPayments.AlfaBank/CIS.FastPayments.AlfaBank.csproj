@@ -22,7 +22,7 @@
     <!-- Package info -->
     <PropertyGroup>
         <Product>CIS.FastPayments.AlfaBank library</Product>
-        <Description>The project for integration with Fast Payment System based on the AlfaBank host.</Description>
+        <Description>The project for integration with Fast Payment System based on the AlfaBank host. Интеграция с системой быстрых платежей для API Альфа-Банка.</Description>
         <PackageId>Spoleto.CIS.FastPayments.AlfaBank</PackageId>
         <Authors>OlegNadymov;Spoleto-Software</Authors>
         <Company>SPOLETO Software Development</Company>
@@ -54,7 +54,7 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-      <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+      <!--<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />-->
       <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
