@@ -36,7 +36,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRCodeResponseModel>(settings, uri, HttpMethod.Post, jsonModel);
+            var result = await InvokeAsync<QRCodeResponseModel>(settings, uri, HttpMethod.Post, jsonModel).ConfigureAwait(false);
 
             return result;
         }
@@ -53,7 +53,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRСodeCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel);
+            var result = await InvokeAsync<QRСodeCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel).ConfigureAwait(false);
 
             return result;
         }
@@ -69,7 +69,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRСodeActivateCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel);
+            var result = await InvokeAsync<QRСodeActivateCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel).ConfigureAwait(false);
 
             result.PaymentPurpose = DecodePercentEncodedToRealCharacters(result.PaymentPurpose);
 
