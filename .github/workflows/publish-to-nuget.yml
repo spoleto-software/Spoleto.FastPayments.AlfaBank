@@ -3,6 +3,8 @@ name: Publish Packages
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - 'src/CIS.FastPayments.AlfaBank.Tests/**'
 
 jobs:
   build:
