@@ -13,7 +13,6 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        /// <returns></returns>
         QRCodeResponseModel GetQRCode(AlfaOption settings, QRCodeRequestModel requestModel)
             => GetQRCodeAsync(settings, requestModel).GetAwaiter().GetResult();
 
@@ -22,7 +21,6 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        /// <returns></returns>
         Task<QRCodeResponseModel> GetQRCodeAsync(AlfaOption settings, QRCodeRequestModel requestModel);
 
         /// <summary>
@@ -30,7 +28,6 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        /// <returns></returns>
         QRСodeCashLinkResponseModel RegQRСodeCashLink(AlfaOption settings, QRСodeCashLinkRequestModel requestModel)
             => RegQRСodeCashLinkAsync(settings, requestModel).GetAwaiter().GetResult();
 
@@ -39,7 +36,21 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        /// <returns></returns>
         Task<QRСodeCashLinkResponseModel> RegQRСodeCashLinkAsync(AlfaOption settings, QRСodeCashLinkRequestModel requestModel);
+
+        /// <summary>
+        /// Активация Кассовой ссылки СБП.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        QRСodeActivateCashLinkResponseModel ActivateQRСodeCashLink(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel)
+            => ActivateQRСodeCashLinkAsync(settings, requestModel).GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Активация Кассовой ссылки СБП.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        Task<QRСodeActivateCashLinkResponseModel> ActivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel);
     }
 }

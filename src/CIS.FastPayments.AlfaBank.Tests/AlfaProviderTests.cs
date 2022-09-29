@@ -68,7 +68,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
         }
 
         [Test]
-        public void RegCashQRСode()
+        public void RegQRСodeCashLink()
         {
             // Arrange
             var provider = _serviceProvider.GetService<IAlfaProvider>();
@@ -89,6 +89,27 @@ namespace CIS.FastPayments.AlfaBank.Tests
             Assert.NotNull(qrCodeCashLink);
             Assert.NotNull(qrCodeCashLink.Content);
             Assert.NotNull(image);
+        }
+
+        [Test]
+        public void ActivateQRСodeCashLink()
+        {
+            // Arrange
+            var provider = _serviceProvider.GetService<IAlfaProvider>();
+
+            // Act
+            var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Amount = 100000,
+                Currency = "RUB",
+                PaymentPurpose = "Оплата тестового товара по кассовой ссылке",
+                QrcId = "123",
+                QRTotal = 10
+            });
+
+            // Assert
+            Assert.NotNull(qrCodeActivateCashLink);
         }
     }
 }

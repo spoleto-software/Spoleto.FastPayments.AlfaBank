@@ -7,7 +7,7 @@
     {
         public static readonly AlfaOption DemoOption = new()
         {
-            ServiceUrl = "http://217.12.103.147:9914/fsCryptoProxy ",
+            ServiceUrl = "http://217.12.103.147:9914/fsCryptoProxy",
             Certificate = new Certificate
             {
                 Name = "c2b-pos-test",
