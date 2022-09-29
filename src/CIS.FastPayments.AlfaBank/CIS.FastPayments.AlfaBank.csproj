@@ -22,7 +22,8 @@
     <!-- Package info -->
     <PropertyGroup>
         <Product>CIS.FastPayments.AlfaBank library</Product>
-        <Description>The project for integration with Fast Payment System based on the AlfaBank host. Интеграция с системой быстрых платежей для API Альфа-Банка.</Description>
+        <Description>C# SDK для интеграции с системой быстрых платежей для API Альфа-Банка.
+The project for integration with Fast Payment System based on the AlfaBank host.</Description>
         <PackageId>Spoleto.CIS.FastPayments.AlfaBank</PackageId>
         <Authors>OlegNadymov;Spoleto-Software</Authors>
         <Company>SPOLETO Software Development</Company>
