@@ -77,13 +77,13 @@ namespace CIS.FastPayments.AlfaBank.Tests
             var qrCodeCashLink = provider.RegQRСodeCashLink(AlfaOption.DemoOption, new()
             {
                 TerminalNumber = "90000018",
-                Height = "500",
-                Width = "500"
+                Height = "1000",
+                Width = "1000"
             });
 
             var image = qrCodeCashLink.ToImage();
 
-            //qrCodeCashLink.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
+            qrCodeCashLink.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
 
             // Assert
             Assert.NotNull(qrCodeCashLink);
@@ -96,20 +96,68 @@ namespace CIS.FastPayments.AlfaBank.Tests
         {
             // Arrange
             var provider = _serviceProvider.GetService<IAlfaProvider>();
+            var paymentPurpose = "Оплата тестового товара по кассовой ссылке";
 
             // Act
+            var qrCodeCashLink = provider.RegQRСodeCashLink(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Height = "1000",
+                Width = "1000"
+            });
+
             var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(AlfaOption.DemoOption, new()
             {
                 TerminalNumber = "90000018",
                 Amount = 100000,
                 Currency = "RUB",
-                PaymentPurpose = "Оплата тестового товара по кассовой ссылке",
-                QrcId = "123",
+                PaymentPurpose = paymentPurpose,
+                QrcId = qrCodeCashLink.QrcId,
                 QRTotal = 10
             });
 
             // Assert
             Assert.NotNull(qrCodeActivateCashLink);
+            Assert.AreEqual(paymentPurpose, qrCodeActivateCashLink.PaymentPurpose);
+        }
+
+        [Test]
+        public void DectivateQRСodeCashLink()
+        {
+            // Arrange
+            var provider = _serviceProvider.GetService<IAlfaProvider>();
+            var paymentPurpose = "Оплата тестового товара по кассовой ссылке";
+
+            // Act
+            var qrCodeCashLink = provider.RegQRСodeCashLink(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Height = "1000",
+                Width = "1000"
+            });
+
+            var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Amount = 100000,
+                Currency = "RUB",
+                PaymentPurpose = paymentPurpose,
+                QrcId = qrCodeCashLink.QrcId,
+                QRTotal = 10
+            });
+
+            Thread.Sleep(500);
+
+            var qrCodeDeactivateCashLink = provider.DeactivateQRСodeCashLink(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                QrcId = qrCodeCashLink.QrcId,
+            });
+
+            // Assert
+            Assert.NotNull(qrCodeActivateCashLink);
+            Assert.AreEqual(paymentPurpose, qrCodeActivateCashLink.PaymentPurpose);
+            Assert.NotNull(qrCodeDeactivateCashLink);
         }
     }
 }

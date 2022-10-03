@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace CIS.FastPayments.AlfaBank.Models
+﻿namespace CIS.FastPayments.AlfaBank.Models
 {
     /// <summary>
     /// Базовый интерфейс для всех видов ответов хоста Альфа-Банка.
@@ -18,9 +15,9 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// </summary>
         string Message { get; set; }
 
-        ///// <summary>
-        ///// Уникальный идентификатор терминала.
-        ///// </summary>
-        //int TerminalNumber { get; set; }
+        /// <summary>
+        /// Уникальный идентификатор терминала.
+        /// </summary>
+        int TerminalNumber { get; set; }
     }
 }

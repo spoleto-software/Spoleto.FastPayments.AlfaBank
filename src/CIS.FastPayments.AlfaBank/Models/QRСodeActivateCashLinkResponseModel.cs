@@ -5,7 +5,7 @@ using CIS.Service.Client.Converters;
 namespace CIS.FastPayments.AlfaBank.Models
 {
     /// <summary>
-    /// Ответ на запрос для регистрация кассовой ссылки СБП.
+    /// Ответ на запрос для активации кассовой ссылки СБП.
     /// </summary>
     public class QRСodeActivateCashLinkResponseModel : IAlfaResponse
     {
