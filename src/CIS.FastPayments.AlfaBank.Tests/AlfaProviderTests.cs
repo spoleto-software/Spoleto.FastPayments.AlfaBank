@@ -52,7 +52,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
             var qrCode = provider.GetQRCode(AlfaOption.DemoOption, new()
             {
                 TerminalNumber = "90000018",
-                Amount = 10000000,
+                Amount = 10000,
                 Currency = "RUB",
                 PaymentPurpose = "Оплата тестовой покупки 5"
             });
@@ -65,6 +65,35 @@ namespace CIS.FastPayments.AlfaBank.Tests
             Assert.NotNull(qrCode);
             Assert.NotNull(qrCode.Image);
             Assert.NotNull(image);
+        }
+
+        [Test]
+        public void GetQRCodeStatus()
+        {
+            // Arrange
+            var provider = _serviceProvider.GetService<IAlfaProvider>();
+
+            // Act
+            var qrCode = provider.GetQRCode(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Amount = 10000,
+                Currency = "RUB",
+                PaymentPurpose = "Оплата тестовой покупки"
+            });
+
+            Thread.Sleep(500);
+
+            var qrCodeStatus = provider.GetQRCodeStatus(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                QrcId = qrCode.QrcId
+            });
+
+            // Assert
+            Assert.NotNull(qrCode);
+            Assert.NotNull(qrCode.Image);
+            Assert.NotNull(qrCodeStatus);
         }
 
         [Test]
@@ -109,7 +138,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
             var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(AlfaOption.DemoOption, new()
             {
                 TerminalNumber = "90000018",
-                Amount = 100000,
+                Amount = 10000,
                 Currency = "RUB",
                 PaymentPurpose = paymentPurpose,
                 QrcId = qrCodeCashLink.QrcId,

@@ -24,6 +24,21 @@ namespace CIS.FastPayments.AlfaBank.Providers
         Task<QRCodeResponseModel> GetQRCodeAsync(AlfaOption settings, QRCodeRequestModel requestModel);
 
         /// <summary>
+        /// Запрос статуса оплаты QR-кода.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        QRCodeStatusResponseModel GetQRCodeStatus(AlfaOption settings, QRCodeStatusRequestModel requestModel)
+            => GetQRCodeStatusAsync(settings, requestModel).GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Запрос статуса оплаты QR-кода.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        Task<QRCodeStatusResponseModel> GetQRCodeStatusAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel);
+
+        /// <summary>
         /// Регистрация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
