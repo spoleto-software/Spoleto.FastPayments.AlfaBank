@@ -39,6 +39,36 @@ namespace CIS.FastPayments.AlfaBank.Providers
         Task<QRCodeStatusResponseModel> GetQRCodeStatusAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel);
 
         /// <summary>
+        /// Запрос возможности проведения возврата по успешной оплате QR-кода.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        QRCodeReversalDataResponseModel GetQRCodeReversalData(AlfaOption settings, QRCodeReversalDataRequestModel requestModel)
+            => GetQRCodeReversalDataAsync(settings, requestModel).GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Запрос возможности проведения возврата по успешной оплате QR-кода.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        Task<QRCodeReversalDataResponseModel> GetQRCodeReversalDataAsync(AlfaOption settings, QRCodeReversalDataRequestModel requestModel);
+
+        /// <summary>
+        /// Запрос возврата оплаты QR-кода.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        QRCodeStatusResponseModel GetQRCodeReversal(AlfaOption settings, QRCodeStatusRequestModel requestModel)
+            => GetQRCodeReversalAsync(settings, requestModel).GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Запрос возврата оплаты QR-кода.
+        /// </summary>
+        /// <param name="settings">Настройки для API.</param>
+        /// <param name="requestModel">Параметры запроса.</param>
+        Task<QRCodeStatusResponseModel> GetQRCodeReversalAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel);
+
+        /// <summary>
         /// Регистрация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>

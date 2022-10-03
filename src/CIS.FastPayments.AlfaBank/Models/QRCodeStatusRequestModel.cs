@@ -33,7 +33,6 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// Обязательно для операций по кассовой платежной ссылке.
         ///  </remarks>
         [JsonPropertyName("payrrn")]
-        [Required]
         public string Payrrn { get; set; }
 
         /// <summary>
