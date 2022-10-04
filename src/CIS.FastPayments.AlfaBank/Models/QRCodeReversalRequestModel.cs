@@ -4,19 +4,19 @@ using System.Text.Json.Serialization;
 namespace CIS.FastPayments.AlfaBank.Models
 {
     /// <summary>
-    /// Параметры запроса возможности проведения возврата по успешной оплате QR-кода.
+    /// Параметры запроса возврата по успешной оплате QR-кода.
     /// </summary>
-    public class QRCodeReversalDataRequestModel : IAlfaRequest
+    public class QRCodeReversalRequestModel : IAlfaRequest
     {
         /// <summary>
         /// Тип запроса.
         /// </summary>
         /// <remarks>
-        /// Константа «GetQRCreversalData».
+        /// Константа «QRCreversal».
         /// </remarks>
         [JsonPropertyName("command")]
         [Required]
-        public string Command { get; } = "GetQRCreversalData";
+        public string Command { get; } = "QRCreversal";
 
         /// <summary>
         /// Уникальный идентификатор терминала.
@@ -28,26 +28,14 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// <summary>
         /// Референсный номер платежа.
         /// </summary>
-        ///  <remarks>
-        /// Обязательно для операций по кассовой платежной ссылке.
-        ///  </remarks>
         [JsonPropertyName("payrrn")]
         public string Payrrn { get; set; }
 
         /// <summary>
         /// Идентификатор QR-кода.
         /// </summary>
-        /// <remarks>
-        /// Для операций по кассовой платежной ссылке ключ не передавать.
-        /// </remarks>
         [JsonPropertyName("qrcId")]
         public string QrcId { get; set; }
-
-        /// <summary>
-        /// Дата и время отменяемого платежа (ГГГГММДДччммсс).
-        /// </summary>
-        [JsonPropertyName("trxDT")]
-        public string TrxDateTime { get; set; }
 
         /// <summary>
         /// Референсный идентификатор операции.
@@ -55,6 +43,12 @@ namespace CIS.FastPayments.AlfaBank.Models
         [JsonPropertyName("trxId")]
         [Required]
         public string TrxId { get; set; }
+
+        /// <summary>
+        /// Дата и время отменяемого платежа (ГГГГММДДччммсс).
+        /// </summary>
+        [JsonPropertyName("trxDT")]
+        public string TrxDateTime { get; set; }
 
         /// <summary>
         /// Сумма платежа в минорных единицах (копейках).
@@ -71,8 +65,22 @@ namespace CIS.FastPayments.AlfaBank.Models
         public string Currency { get; set; }
 
         /// <summary>
-        /// Уникальный идентификатор сообщения. Только латинские символы.
+        /// Одноразовый пароль для подтверждения воз-врата, вводится кассиром.
         /// </summary>
+        /// <remarks>
+        /// Возможность использования оговаривается отдельно.
+        /// </remarks>
+        [JsonPropertyName("OTP")]
+        public string OneTimePassword { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор сообщения, GUID из сообщения «GetQRCreversalData».
+        /// </summary>
+        /// <remarks>
+        /// Обязательно, если было указано при запросе <b>GetQRCreversalData</b>.<br/><br/>
+        /// Необходимо передавать точное значение, которые было указано в ответе на запрос GetQRCreversalData.<br/>
+        /// Если значение изменилось, необходимо повторно создать запрос с указанием messageID и затем использовать полученный GUID при запросе на возврат.
+        /// </remarks>
         [JsonPropertyName("messageID")]
         public string MessageID { get; set; }
     }

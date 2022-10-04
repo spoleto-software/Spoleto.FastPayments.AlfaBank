@@ -133,6 +133,53 @@ namespace CIS.FastPayments.AlfaBank.Tests
         }
 
         [Test]
+        public void GetQRCodeReversal()
+        {
+            // Arrange
+            var provider = _serviceProvider.GetService<IAlfaProvider>();
+            var messageId = "MyUniqRequest";
+
+            // Act
+            var qrCode = provider.GetQRCode(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Amount = 10000,
+                Currency = "RUB",
+                PaymentPurpose = "Оплата тестовой покупки"
+            });
+
+            Thread.Sleep(500);
+
+            //// test for a fake payment:
+            //var qrCodeReversalData = provider.GetQRCodeReversalData(AlfaOption.DemoOption, new()
+            //{
+            //    TerminalNumber = "90000018",
+            //    QrcId = qrCode.QrcId,
+            //    Amount = 10000,
+            //    Currency = "RUB",
+            //    MessageID = messageId,
+            //    TrxId = qrCode.QrcId
+            //});
+
+            // test for a fake payment:
+            var qrCodeReversal = provider.GetQRCodeReversal(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                QrcId = qrCode.QrcId,
+                Amount = 10000,
+                Currency = "RUB",
+                MessageID = messageId,
+                TrxId = qrCode.QrcId
+            });
+
+            // Assert
+            Assert.NotNull(qrCode);
+            Assert.NotNull(qrCode.Image);
+            Assert.NotNull(qrCodeReversal);
+            Assert.AreEqual(messageId, qrCodeReversal.MessageID);
+        }
+
+        [Test]
         public void RegQRСodeCashLink()
         {
             // Arrange

@@ -41,6 +41,19 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// <summary>
         /// Запрос возможности проведения возврата по успешной оплате QR-кода.
         /// </summary>
+        /// <remarks>
+        /// Возврат состоит из 2-х последовательных запросов:
+        /// <list type="number">
+        ///     <item>
+        ///         <term>GetQRCreversalData</term>
+        ///         <description>это предварительная проверка возврата, а далее методом QRCreversal выполнить возврат операции.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term>QRCreversal</term>
+        ///         <description>по возврату не делается запрос статуса, т.к отсутствие ошибок ("ErrorCode": 0) в методе QRCreversal означает успешно проведённую операцию возврата.</description>
+        ///     </item>     
+        /// </list>
+        /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         QRCodeReversalDataResponseModel GetQRCodeReversalData(AlfaOption settings, QRCodeReversalDataRequestModel requestModel)
@@ -49,6 +62,19 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// <summary>
         /// Запрос возможности проведения возврата по успешной оплате QR-кода.
         /// </summary>
+        /// <remarks>
+        /// Возврат состоит из 2-х последовательных запросов:
+        /// <list type="number">
+        ///     <item>
+        ///         <term>GetQRCreversalData</term>
+        ///         <description>это предварительная проверка возврата, а далее методом QRCreversal выполнить возврат операции.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term>QRCreversal</term>
+        ///         <description>по возврату не делается запрос статуса, т.к отсутствие ошибок ("ErrorCode": 0) в методе QRCreversal означает успешно проведённую операцию возврата.</description>
+        ///     </item>     
+        /// </list>
+        /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         Task<QRCodeReversalDataResponseModel> GetQRCodeReversalDataAsync(AlfaOption settings, QRCodeReversalDataRequestModel requestModel);
@@ -56,17 +82,43 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// <summary>
         /// Запрос возврата оплаты QR-кода.
         /// </summary>
+        /// <remarks>
+        /// Возврат состоит из 2-х последовательных запросов:
+        /// <list type="number">
+        ///     <item>
+        ///         <term>GetQRCreversalData</term>
+        ///         <description>это предварительная проверка возврата, а далее методом QRCreversal выполнить возврат операции.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term>QRCreversal</term>
+        ///         <description>по возврату не делается запрос статуса, т.к отсутствие ошибок ("ErrorCode": 0) в методе QRCreversal означает успешно проведённую операцию возврата.</description>
+        ///     </item>     
+        /// </list>
+        /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRCodeStatusResponseModel GetQRCodeReversal(AlfaOption settings, QRCodeStatusRequestModel requestModel)
+        QRCodeReversalResponseModel GetQRCodeReversal(AlfaOption settings, QRCodeReversalRequestModel requestModel)
             => GetQRCodeReversalAsync(settings, requestModel).GetAwaiter().GetResult();
 
         /// <summary>
         /// Запрос возврата оплаты QR-кода.
         /// </summary>
+        /// <remarks>
+        /// Возврат состоит из 2-х последовательных запросов:
+        /// <list type="number">
+        ///     <item>
+        ///         <term>GetQRCreversalData</term>
+        ///         <description>это предварительная проверка возврата, а далее методом QRCreversal выполнить возврат операции.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term>QRCreversal</term>
+        ///         <description>по возврату не делается запрос статуса, т.к отсутствие ошибок ("ErrorCode": 0) в методе QRCreversal означает успешно проведённую операцию возврата.</description>
+        ///     </item>     
+        /// </list>
+        /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRCodeStatusResponseModel> GetQRCodeReversalAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel);
+        Task<QRCodeReversalResponseModel> GetQRCodeReversalAsync(AlfaOption settings, QRCodeReversalRequestModel requestModel);
 
         /// <summary>
         /// Регистрация Кассовой ссылки СБП.
