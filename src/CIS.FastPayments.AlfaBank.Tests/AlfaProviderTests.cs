@@ -1,4 +1,5 @@
-﻿using CIS.FastPayments.AlfaBank.Extensions;
+﻿using CIS.Cryptography.Rsa;
+using CIS.FastPayments.AlfaBank.Extensions;
 using CIS.FastPayments.AlfaBank.Helpers;
 using CIS.FastPayments.AlfaBank.Models;
 using CIS.FastPayments.AlfaBank.Providers;
@@ -35,8 +36,8 @@ namespace CIS.FastPayments.AlfaBank.Tests
             var certificate = AlfaOption.DemoOption.Certificate;
 
             // Act
-            var signedData = CryptoHelper.Sign(certificate.PrivateKey, json);
-            var isVerified = CryptoHelper.Verify(certificate.AlfaPublicBody, json, signedData);
+            var signedData = RSACryptoPemHelper.Sign(certificate.PrivateKey, json);
+            var isVerified = RSACryptoPemHelper.Verify(certificate.AlfaPublicBody, json, signedData);
 
             // Assert
             Assert.True(isVerified);

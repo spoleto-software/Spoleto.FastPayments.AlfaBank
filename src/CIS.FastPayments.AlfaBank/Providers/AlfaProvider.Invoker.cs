@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using CIS.Cryptography.Rsa;
 using CIS.FastPayments.AlfaBank.Extensions;
 using CIS.FastPayments.AlfaBank.Helpers;
 using CIS.FastPayments.AlfaBank.Models;
@@ -15,7 +16,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
         private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent) where T : IAlfaResponse
         {
-            using var certificate = CryptoHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey);
+            using var certificate = RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey);
 
             var client = HttpClientHelper.CreateClient(certificate);// _httpClientFactory.CreateClient();
 
@@ -79,7 +80,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
         {
             requestMessage.ConfigureRequestMessage();
 
-            var signedJsonContent = CryptoHelper.Sign(settings.Certificate.PrivateKey, requestJsonContent);
+            var signedJsonContent = RSACryptoPemHelper.Sign(settings.Certificate.PrivateKey, requestJsonContent);
 
             requestMessage.Headers.TryAddWithoutValidation("Authorization", signedJsonContent);
             requestMessage.Headers.Add("key-name", settings.Certificate.AlfaAlias);

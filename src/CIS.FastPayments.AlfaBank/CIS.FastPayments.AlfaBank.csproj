@@ -55,7 +55,7 @@ The project for integration with Fast Payment System based on the AlfaBank host.
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-      <!--<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />-->
+      <PackageReference Include="Spoleto.CIS.Cryptography.RSA" Version="2.10.7.1630" />
       <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
