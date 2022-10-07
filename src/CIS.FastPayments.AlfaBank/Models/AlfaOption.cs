@@ -10,7 +10,8 @@
             ServiceUrl = "http://217.12.103.147:9914/fsCryptoProxy",
             Certificate = new Certificate
             {
-                Name = "c2b-pos-test",
+                Name = "Тестовый сертификат",
+                AlfaAlias = "c2b-pos-test",
                 PrivateKey = @"-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCnQuZHudOU942u
 DDuvI3io50Ern/VcnLg6fmaANZleJtnFk967wYcwL984n1UxAYVmCKLV2J+OVuG7
@@ -65,6 +66,8 @@ JVTObw37p6uV0ZbS0LdnLoR7GVitU7iatS3Ioe5yZKfinon3d+IZhqrlyZv9i+9O
             }
         };
 
+
+ 
         /// <summary>
         /// Адрес сервиса Альфа-Банка.
         /// </summary>

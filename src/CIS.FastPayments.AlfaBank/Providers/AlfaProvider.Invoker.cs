@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,19 +15,21 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
         private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent) where T : IAlfaResponse
         {
-            using var client = _httpClientFactory.CreateClient();
-            client.ConfigureHttpClient();
+            using var certificate = CryptoHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey);
+
+            var client = HttpClientHelper.CreateClient(certificate);// _httpClientFactory.CreateClient();
 
             using var requestMessage = new HttpRequestMessage(method, uri);
             InitRequestHeaders(requestMessage, settings, requestJsonContent);
 
             requestMessage.Content = new StringContent(requestJsonContent, DefaultSettings.Encoding, DefaultSettings.ContentType);
-
             using var responseMessage = await client.SendAsync(requestMessage).ConfigureAwait(false);
 
             if (responseMessage.IsSuccessStatusCode)
             {
                 var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                VerifyResponse(settings, responseMessage, result);
+
                 if (String.IsNullOrEmpty(result))
                     return default;
 
@@ -57,14 +60,29 @@ namespace CIS.FastPayments.AlfaBank.Providers
             throw exception;
         }
 
+        private void VerifyResponse(AlfaOption settings, HttpResponseMessage responseMessage, string result)
+        {
+            var auth = responseMessage.Headers.TryGetValues("Authorization", out var values) ? values.FirstOrDefault() : null;
+            if (auth == null)
+            {
+                throw new Exception("Не найдены заголовки в ответе от сервиса Альфа-Банка для авторизации ответа.");
+            }
+
+            //var isVerified = CryptoHelper.VerifyByCore(settings.Certificate, result, auth);
+            //if (!isVerified)
+            //{
+            //    //throw new Exception("Не пройдена проверка ответа от сервиса Альфа-Банка с помощью сертификата.");
+            //}
+        }
+
         private void InitRequestHeaders(HttpRequestMessage requestMessage, AlfaOption settings, string requestJsonContent)
         {
             requestMessage.ConfigureRequestMessage();
 
-            var signedJsonContent = CryptoHelper.SignByCore(settings.Certificate, requestJsonContent);
+            var signedJsonContent = CryptoHelper.Sign(settings.Certificate.PrivateKey, requestJsonContent);
 
             requestMessage.Headers.TryAddWithoutValidation("Authorization", signedJsonContent);
-            requestMessage.Headers.Add("key-name", settings.Certificate.Name);
+            requestMessage.Headers.Add("key-name", settings.Certificate.AlfaAlias);
         }
 
         private string DecodePercentEncodedToRealCharacters(string s)

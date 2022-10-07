@@ -35,8 +35,8 @@ namespace CIS.FastPayments.AlfaBank.Tests
             var certificate = AlfaOption.DemoOption.Certificate;
 
             // Act
-            var signedData = CryptoHelper.SignByCore(certificate, json);
-            var isVerified = CryptoHelper.VerifyByCore(certificate, json, signedData);
+            var signedData = CryptoHelper.Sign(certificate.PrivateKey, json);
+            var isVerified = CryptoHelper.Verify(certificate.AlfaPublicBody, json, signedData);
 
             // Assert
             Assert.True(isVerified);
@@ -62,9 +62,12 @@ namespace CIS.FastPayments.AlfaBank.Tests
             //qrCode.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
 
             // Assert
-            Assert.NotNull(qrCode);
-            Assert.NotNull(qrCode.Image);
-            Assert.NotNull(image);
+            Assert.Multiple(() =>
+            {
+                Assert.That(qrCode, Is.Not.Null);
+                Assert.That(qrCode.Image, Is.Not.Null);
+                Assert.That(image, Is.Not.Null);
+            });
         }
 
         [Test]

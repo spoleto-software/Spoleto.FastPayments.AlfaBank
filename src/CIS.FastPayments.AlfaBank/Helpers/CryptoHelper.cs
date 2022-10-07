@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using CIS.FastPayments.AlfaBank.Models;
 //using Org.BouncyCastle.Asn1.Ocsp;
 //using Org.BouncyCastle.Crypto;
 //using Org.BouncyCastle.Crypto.Parameters;
@@ -12,13 +9,8 @@ using CIS.FastPayments.AlfaBank.Models;
 
 namespace CIS.FastPayments.AlfaBank.Helpers
 {
-    //TODO: После обновления на NET 6 или выше
-    // попробовать использовать нативный NET метод System.Security.Cryptography.RSA.ImportFromEncryptedPem:
-    // https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa.importfrompem
-    // Если он заработает, то удалить стороннюю библиотеку BouncyCastle (она довольно тяжелая >3Мб и избыточная для этого кейса).
-
     /// <summary>
-    /// Хелпер для работы с криптографией (аналог OpenSsl).
+    /// Хелпер для работы с криптографией (аналог OpenSSL).
     /// </summary>
     /// <remarks>
     /// PEM (Privacy-Enhanced Mail) (RFC 7468), DER (Distinguished Encoding Rules) (X.690).<br/>
@@ -28,6 +20,7 @@ namespace CIS.FastPayments.AlfaBank.Helpers
     /// </remarks>
     public static class CryptoHelper
     {
+        #region Based on BouncyCastle
         //private const string _algorithm = "SHA256withRSA";
 
         ///// <summary>
@@ -78,44 +71,45 @@ namespace CIS.FastPayments.AlfaBank.Helpers
         //    signer.BlockUpdate(msgBytes, 0, msgBytes.Length);
         //    return signer.VerifySignature(expectedSig);
         //}
+        #endregion
 
         /// <summary>
-        /// Расчет hash SHA256 и закрытия его приватным ключом RSA сертификата (на основе .NET Core).
+        /// Расчет hash SHA256 и закрытия его приватным ключом RSA сертификата (на основе .NET Core System.Security.Cryptography).
         /// </summary>
-        public static string SignByCore(Certificate certificate, string stringToSign)
+        public static string Sign(string privateKeyPemText, string stringToSign)
         {
-            using var csp = CreateRsaProviderFromPrivateKey(certificate.PrivateKey);
+            using var csp = CreateRsaProviderFromPrivateKey(privateKeyPemText);
 
             var originalData = DefaultSettings.Encoding.GetBytes(stringToSign);
             var signed = csp.SignData(originalData, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            
+
             return Convert.ToBase64String(signed);
         }
 
         /// <summary>
-        /// Проверка с помощью публичного ключа зашифрованного значения  (на основе .NET Core).
+        /// Проверка с помощью публичного ключа зашифрованного значения  (на основе .NET Core System.Security.Cryptography).
         /// </summary>
-        public static bool VerifyByCore(Certificate certificate, string stringToVerify, string expectedSignature)
+        public static bool Verify(string certificatePemText, string stringToVerify, string expectedSignature)
         {
-            using var c = new X509Certificate2(DefaultSettings.Encoding.GetBytes(certificate.PublicBody));
+            using var c = new X509Certificate2(DefaultSettings.Encoding.GetBytes(certificatePemText));
 
             // Get the signature into bytes
-            var expectedSig = Convert.FromBase64String(expectedSignature);
+            var expectedSignatureBytes = Convert.FromBase64String(expectedSignature);
 
             // Get the bytes to be signed from the string
-            var msgBytes = DefaultSettings.Encoding.GetBytes(stringToVerify);
+            var stringToVerifyBytes = DefaultSettings.Encoding.GetBytes(stringToVerify);
 
             using var rsa = c.GetRSAPublicKey();
             if (rsa != null)
-                return rsa.VerifyData(msgBytes, expectedSig, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                return rsa.VerifyData(stringToVerifyBytes, expectedSignatureBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
             using var ecdsa = c.GetECDsaPublicKey();
             if (ecdsa != null)
-                return ecdsa.VerifyData(msgBytes, expectedSig, HashAlgorithmName.SHA256);
+                return ecdsa.VerifyData(stringToVerifyBytes, expectedSignatureBytes, HashAlgorithmName.SHA256);
 
             using var dsa = c.GetDSAPublicKey();
             if (dsa != null)
-                return dsa.VerifyData(msgBytes, expectedSig, HashAlgorithmName.SHA256);
+                return dsa.VerifyData(stringToVerifyBytes, expectedSignatureBytes, HashAlgorithmName.SHA256);
 
             return false;
         }
@@ -123,20 +117,44 @@ namespace CIS.FastPayments.AlfaBank.Helpers
         //TODO: После обновления на NET 6 или выше
         // попробовать использовать нативный NET метод System.Security.Cryptography.RSA.ImportFromEncryptedPem
         // вместо ImportPkcs8PrivateKey, ImportRSAPrivateKey, ImportPkcs8PrivateKey
-        private static RSA CreateRsaProviderFromPrivateKey(string privateKey)
+        private static RSA CreateRsaProviderFromPrivateKey(string privateKeyPemText)
         {
-            var lines = privateKey.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            if (privateKeyPemText == null)
+                return null;
 
-            var base64Key = string.Join(String.Empty,
-            (
-                from s in lines
-                where !string.IsNullOrEmpty(s) && s[0] != '-'
-                select s
-             )).Replace("\n", "").Replace("\r", "");
+            if (privateKeyPemText.IndexOf('-', StringComparison.Ordinal) < 0)
+            {
+                return FallbackCreateRsaProviderFromPrivateKey(privateKeyPemText);
+            }
 
+            var privateKeyBlocks = privateKeyPemText.Split("-", StringSplitOptions.RemoveEmptyEntries);
+
+            // +++вынести в отдельны нугет
+            var base64Key = privateKeyBlocks[1].Replace("\n", "").Replace("\r", "");
             var privateKeyBytes = Convert.FromBase64String(base64Key);
+            var rsa = RSA.Create();
 
-            var rsa = RSA.Create();// new RSACryptoServiceProvider(); // RSA.Create() не работает для Альфы
+            if (privateKeyBlocks[0] == "BEGIN PRIVATE KEY")
+            {
+                rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
+            }
+            else if (privateKeyBlocks[0] == "BEGIN RSA PRIVATE KEY")
+            {
+                rsa.ImportRSAPrivateKey(privateKeyBytes, out _);
+            }
+            else if (privateKeyBlocks[0] == "BEGIN ENCRYPTED PRIVATE KEY")
+            {
+                rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
+            }
+
+            return rsa;
+        }
+
+        private static RSA FallbackCreateRsaProviderFromPrivateKey(string privateKeyPemText)
+        {
+            var privateKeyBytes = Convert.FromBase64String(privateKeyPemText);
+
+            var rsa = RSA.Create();
 
             // https://stackoverflow.com/a/48960291
             try
@@ -156,6 +174,30 @@ namespace CIS.FastPayments.AlfaBank.Helpers
             }
 
             return rsa;
+        }
+
+        /// <summary>
+        /// Создать сертификат на основе его тела и приватного ключа в формате PEM.
+        /// </summary>
+        /// <param name="certificatePemText">Тело в формате PEM.</param>
+        /// <param name="privateKeyPemText">Приватный ключ в формате PEM.</param>
+        /// <returns>Сертификат X509Certificate2.</returns>
+        public static X509Certificate2 CreateCertificate(string certificatePemText, string privateKeyPemText)
+        {
+            if (certificatePemText == null)
+                return null;
+
+            using var publicKeyCertificate = new X509Certificate2(DefaultSettings.Encoding.GetBytes(certificatePemText));
+
+            if (privateKeyPemText == null)
+                return publicKeyCertificate;
+
+            using var rsa = CreateRsaProviderFromPrivateKey(privateKeyPemText);
+
+            using var keyPair = publicKeyCertificate.CopyWithPrivateKey(rsa);
+            var certificate = new X509Certificate2(keyPair.Export(X509ContentType.Pfx));
+
+            return certificate;
         }
     }
 }

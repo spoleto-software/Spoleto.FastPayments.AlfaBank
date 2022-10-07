@@ -13,6 +13,11 @@ namespace CIS.FastPayments.AlfaBank.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Alias нашего сертификата в системе Альфа-Банка.
+        /// </summary>
+        public string AlfaAlias { get; set; }
+
+        /// <summary>
         /// Дата начала действия.
         /// </summary>
         public DateTime DateIssue { get; set; }
@@ -27,14 +32,25 @@ namespace CIS.FastPayments.AlfaBank.Models
         /// </summary>
         public string Password { get; set; }
 
+
+        /// <summary>
+        /// Тело сертификата.
+        /// </summary>
+        public string PublicBody { get; set; }
+
         /// <summary>
         /// Приватный ключ сертификата.
         /// </summary>
         public string PrivateKey { get; set; }
 
         /// <summary>
-        /// Тело сертификата.
+        /// Сертификат Альфа-Банка
         /// </summary>
-        public string PublicBody { get; set; }
+        public string AlfaPublicBody { get; set; }
+
+        /// <summary>
+        /// Приватный ключ сертификата Альфа-Банка
+        /// </summary>
+        public string AlfaPrivateKey { get; set; }
     }
 }

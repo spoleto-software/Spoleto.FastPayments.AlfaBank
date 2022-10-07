@@ -13,15 +13,13 @@ namespace CIS.FastPayments.AlfaBank.Providers
     public partial class AlfaProvider : IAlfaProvider
     {
         private readonly ILogger<AlfaProvider> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
 
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
-        public AlfaProvider(ILogger<AlfaProvider> logger, IHttpClientFactory httpClientFactory)
+        public AlfaProvider(ILogger<AlfaProvider> logger)
         {
             _logger = logger;
-            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
