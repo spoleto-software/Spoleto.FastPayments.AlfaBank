@@ -13,30 +13,34 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRCodeResponseModel GetQRCode(AlfaOption settings, QRCodeRequestModel requestModel)
-            => GetQRCodeAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRCodeResponseModel GetQRCode(AlfaOption settings, QRCodeRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => GetQRCodeAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Запрос QR-кода.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRCodeResponseModel> GetQRCodeAsync(AlfaOption settings, QRCodeRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRCodeResponseModel> GetQRCodeAsync(AlfaOption settings, QRCodeRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
         /// <summary>
         /// Запрос статуса оплаты QR-кода.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRCodeStatusResponseModel GetQRCodeStatus(AlfaOption settings, QRCodeStatusRequestModel requestModel)
-            => GetQRCodeStatusAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRCodeStatusResponseModel GetQRCodeStatus(AlfaOption settings, QRCodeStatusRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => GetQRCodeStatusAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Запрос статуса оплаты QR-кода.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRCodeStatusResponseModel> GetQRCodeStatusAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRCodeStatusResponseModel> GetQRCodeStatusAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
         /// <summary>
         /// Запрос возможности проведения возврата по успешной оплате QR-кода.
@@ -56,8 +60,9 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRCodeReversalDataResponseModel GetQRCodeReversalData(AlfaOption settings, QRCodeReversalDataRequestModel requestModel)
-            => GetQRCodeReversalDataAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRCodeReversalDataResponseModel GetQRCodeReversalData(AlfaOption settings, QRCodeReversalDataRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => GetQRCodeReversalDataAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Запрос возможности проведения возврата по успешной оплате QR-кода.
@@ -77,7 +82,8 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRCodeReversalDataResponseModel> GetQRCodeReversalDataAsync(AlfaOption settings, QRCodeReversalDataRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRCodeReversalDataResponseModel> GetQRCodeReversalDataAsync(AlfaOption settings, QRCodeReversalDataRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
         /// <summary>
         /// Запрос возврата оплаты QR-кода.
@@ -97,8 +103,9 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRCodeReversalResponseModel GetQRCodeReversal(AlfaOption settings, QRCodeReversalRequestModel requestModel)
-            => GetQRCodeReversalAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRCodeReversalResponseModel GetQRCodeReversal(AlfaOption settings, QRCodeReversalRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => GetQRCodeReversalAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Запрос возврата оплаты QR-кода.
@@ -118,52 +125,59 @@ namespace CIS.FastPayments.AlfaBank.Providers
         /// </remarks>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRCodeReversalResponseModel> GetQRCodeReversalAsync(AlfaOption settings, QRCodeReversalRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRCodeReversalResponseModel> GetQRCodeReversalAsync(AlfaOption settings, QRCodeReversalRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
         /// <summary>
         /// Регистрация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRСodeCashLinkResponseModel RegQRСodeCashLink(AlfaOption settings, QRСodeCashLinkRequestModel requestModel)
-            => RegQRСodeCashLinkAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRСodeCashLinkResponseModel RegQRСodeCashLink(AlfaOption settings, QRСodeCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => RegQRСodeCashLinkAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Регистрация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRСodeCashLinkResponseModel> RegQRСodeCashLinkAsync(AlfaOption settings, QRСodeCashLinkRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRСodeCashLinkResponseModel> RegQRСodeCashLinkAsync(AlfaOption settings, QRСodeCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
         /// <summary>
         /// Активация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRСodeActivateCashLinkResponseModel ActivateQRСodeCashLink(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel)
-            => ActivateQRСodeCashLinkAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRСodeActivateCashLinkResponseModel ActivateQRСodeCashLink(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => ActivateQRСodeCashLinkAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Активация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRСodeActivateCashLinkResponseModel> ActivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRСodeActivateCashLinkResponseModel> ActivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
         /// <summary>
         /// Деактивация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        QRСodeDeactivateCashLinkResponseModel DeactivateQRСodeCashLink(AlfaOption settings, QRСodeDeactivateCashLinkRequestModel requestModel)
-            => DeactivateQRСodeCashLinkAsync(settings, requestModel).GetAwaiter().GetResult();
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        QRСodeDeactivateCashLinkResponseModel DeactivateQRСodeCashLink(AlfaOption settings, QRСodeDeactivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+            => DeactivateQRСodeCashLinkAsync(settings, requestModel, throwIfErrorCodeIsFailed).GetAwaiter().GetResult();
 
         /// <summary>
         /// Деактивация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
         /// <param name="requestModel">Параметры запроса.</param>
-        Task<QRСodeDeactivateCashLinkResponseModel> DeactivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeDeactivateCashLinkRequestModel requestModel);
+        /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
+        Task<QRСodeDeactivateCashLinkResponseModel> DeactivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeDeactivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed);
 
     }
 }

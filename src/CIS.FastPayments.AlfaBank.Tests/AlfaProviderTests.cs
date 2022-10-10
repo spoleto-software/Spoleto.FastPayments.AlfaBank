@@ -56,7 +56,15 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 Amount = 10000,
                 Currency = "RUB",
                 PaymentPurpose = "Оплата тестовой покупки 5"
-            });
+            }, false);
+
+            var qrCode2 = provider.GetQRCode(AlfaOption.DemoOption, new()
+            {
+                TerminalNumber = "90000018",
+                Amount = 10000,
+                Currency = "RUB",
+                PaymentPurpose = "Оплата тестовой покупки 5"
+            }, false);
 
             var image = qrCode.ToImage();
 
@@ -84,7 +92,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 Amount = 10000,
                 Currency = "RUB",
                 PaymentPurpose = "Оплата тестовой покупки"
-            });
+            }, false);
 
             Thread.Sleep(500);
 
@@ -92,7 +100,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
             {
                 TerminalNumber = "90000018",
                 QrcId = qrCode.QrcId
-            });
+            }, false);
 
             // Assert
             Assert.NotNull(qrCode);
@@ -114,7 +122,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 Amount = 10000,
                 Currency = "RUB",
                 PaymentPurpose = "Оплата тестовой покупки"
-            });
+            }, false);
 
             Thread.Sleep(500);
 
@@ -127,7 +135,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 Currency = "RUB",
                 MessageID = messageId,
                 TrxId = qrCode.QrcId
-            });
+            }, false);
 
             // Assert
             Assert.NotNull(qrCode);
@@ -150,7 +158,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 Amount = 10000,
                 Currency = "RUB",
                 PaymentPurpose = "Оплата тестовой покупки"
-            });
+            }, false);
 
             Thread.Sleep(500);
 
@@ -174,7 +182,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 Currency = "RUB",
                 MessageID = messageId,
                 TrxId = qrCode.QrcId
-            });
+            }, false);
 
             // Assert
             Assert.NotNull(qrCode);
@@ -195,7 +203,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 TerminalNumber = "90000018",
                 Height = "1000",
                 Width = "1000"
-            });
+            }, false);
 
             var image = qrCodeCashLink.ToImage();
 
@@ -220,7 +228,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 TerminalNumber = "90000018",
                 Height = "1000",
                 Width = "1000"
-            });
+            }, false);
 
             var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(AlfaOption.DemoOption, new()
             {
@@ -230,7 +238,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 PaymentPurpose = paymentPurpose,
                 QrcId = qrCodeCashLink.QrcId,
                 QRTotal = 10
-            });
+            }, false);
 
             // Assert
             Assert.NotNull(qrCodeActivateCashLink);
@@ -250,7 +258,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 TerminalNumber = "90000018",
                 Height = "1000",
                 Width = "1000"
-            });
+            }, false);
 
             var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(AlfaOption.DemoOption, new()
             {
@@ -260,7 +268,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
                 PaymentPurpose = paymentPurpose,
                 QrcId = qrCodeCashLink.QrcId,
                 QRTotal = 10
-            });
+            }, false);
 
             Thread.Sleep(500);
 
@@ -268,7 +276,7 @@ namespace CIS.FastPayments.AlfaBank.Tests
             {
                 TerminalNumber = "90000018",
                 QrcId = qrCodeCashLink.QrcId,
-            });
+            }, false);
 
             // Assert
             Assert.NotNull(qrCodeActivateCashLink);

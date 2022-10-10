@@ -14,9 +14,9 @@ namespace CIS.FastPayments.AlfaBank.Providers
     {
         private const string _successCode = "0";
 
-        private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent) where T : IAlfaResponse
+        private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent, bool throwIfErrorCodeIsFailed) where T : IAlfaResponse
         {
-            using var certificate = RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey);
+            var certificate = RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey);
 
             var client = HttpClientHelper.CreateClient(certificate);// _httpClientFactory.CreateClient();
 
@@ -36,7 +36,8 @@ namespace CIS.FastPayments.AlfaBank.Providers
 
                 var objectResult = JsonHelper.FromJson<T>(result);
                 objectResult.Message = DecodePercentEncodedToRealCharacters(objectResult.Message);
-                if (objectResult.ErrorCode != _successCode)
+                if (throwIfErrorCodeIsFailed
+                    && objectResult.ErrorCode != _successCode)
                 {
                     throw new Exception($"{nameof(objectResult.ErrorCode)}: {objectResult.ErrorCode}{Environment.NewLine}{objectResult.Message}.");
                 }
@@ -61,6 +62,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
             throw exception;
         }
 
+        //check and remove
         private void VerifyResponse(AlfaOption settings, HttpResponseMessage responseMessage, string result)
         {
             var auth = responseMessage.Headers.TryGetValues("Authorization", out var values) ? values.FirstOrDefault() : null;

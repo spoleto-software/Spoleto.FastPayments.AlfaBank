@@ -10,6 +10,7 @@ namespace CIS.FastPayments.AlfaBank.Helpers
     {
         private static readonly ConcurrentDictionary<string, HttpClient> _clients = new();
 
+        //TODO: надо ли диспозить старые handler, возможно, по на основе кеша со SlidingExpiration.
         public static HttpClient CreateClient(X509Certificate2 certificate)
         {
             var key = certificate?.Thumbprint ?? string.Empty;
