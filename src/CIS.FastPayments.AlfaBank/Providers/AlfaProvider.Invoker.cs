@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web;
 using CIS.Cryptography.Rsa;
@@ -14,9 +16,13 @@ namespace CIS.FastPayments.AlfaBank.Providers
     {
         private const string _successCode = "0";
 
+        private readonly ConcurrentDictionary<string, X509Certificate2> _certificateCache = new();
+
         private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent, bool throwIfErrorCodeIsFailed) where T : IAlfaResponse
         {
-            var certificate = RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey);
+            var certificate = settings.Certificate.AlfaPublicBody != null
+                ? _certificateCache.GetOrAdd(settings.Certificate.AlfaPublicBody, x => RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey))
+                : null;
 
             var client = HttpClientHelper.CreateClient(certificate);// _httpClientFactory.CreateClient();
 
@@ -62,7 +68,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
             throw exception;
         }
 
-        //check and remove
+        //check and maybe remove
         private void VerifyResponse(AlfaOption settings, HttpResponseMessage responseMessage, string result)
         {
             var auth = responseMessage.Headers.TryGetValues("Authorization", out var values) ? values.FirstOrDefault() : null;
