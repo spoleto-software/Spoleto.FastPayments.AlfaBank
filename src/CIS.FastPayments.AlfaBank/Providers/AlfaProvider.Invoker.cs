@@ -14,8 +14,6 @@ namespace CIS.FastPayments.AlfaBank.Providers
 {
     public partial class AlfaProvider
     {
-        private const string _successCode = "0";
-
         private readonly ConcurrentDictionary<string, X509Certificate2> _certificateCache = new();
 
         private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent, bool throwIfErrorCodeIsFailed) where T : IAlfaResponse
@@ -43,7 +41,7 @@ namespace CIS.FastPayments.AlfaBank.Providers
                 var objectResult = JsonHelper.FromJson<T>(result);
                 objectResult.Message = DecodePercentEncodedToRealCharacters(objectResult.Message);
                 if (throwIfErrorCodeIsFailed
-                    && objectResult.ErrorCode != _successCode)
+                    && objectResult.ErrorCode != Constants.SuccessCode)
                 {
                     throw new Exception($"{nameof(objectResult.ErrorCode)}: {objectResult.ErrorCode}{Environment.NewLine}{objectResult.Message}.");
                 }
