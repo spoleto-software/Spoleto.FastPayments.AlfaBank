@@ -38,6 +38,19 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
+
+    - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
+      name: Replace tokens # replace tokens in appsettings.json with real data
+      uses: cschleiden/replace-tokens@v1.1
+      with:
+        files: '["src/Spoleto.FastPayments.AlfaBank.Tests/*.json"]'
+      env:
+          ServiceUrl: ${{secrets.SERVICEURL}}
+          Name: ${{secrets.NAME}}
+          PrivateKey: ${{secrets.PRIVATEKEY}}
+          PublicBody: ${{secrets.PUBLICBODY}}
+          AlfaAlias: ${{secrets.ALFAALIAS}}
+
     - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
       name: Test with the dotnet CLI
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results.trx"

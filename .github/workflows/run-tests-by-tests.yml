@@ -32,6 +32,12 @@ jobs:
       uses: cschleiden/replace-tokens@v1.1
       with:
         files: '["src/Spoleto.FastPayments.AlfaBank.Tests/*.json"]'
+      env:
+          ServiceUrl: ${{secrets.SERVICEURL}}
+          Name: ${{secrets.NAME}}
+          PrivateKey: ${{secrets.PRIVATEKEY}}
+          PublicBody: ${{secrets.PUBLICBODY}}
+          AlfaAlias: ${{secrets.ALFAALIAS}}
 
     - name: Test with the dotnet CLI
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results.trx"

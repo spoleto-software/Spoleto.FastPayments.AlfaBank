@@ -4,9 +4,6 @@ using Spoleto.FastPayments.AlfaBank.Models;
 
 namespace Spoleto.FastPayments.AlfaBank.Tests
 {
-    /// <summary>
-    /// 
-    /// </summary>
     internal static class ConfigurationHelper
     {
         private static readonly IConfigurationRoot _config;
