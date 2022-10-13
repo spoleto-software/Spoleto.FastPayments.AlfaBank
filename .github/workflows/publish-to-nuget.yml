@@ -3,24 +3,53 @@ name: Publish Packages
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - 'src/Spoleto.FastPayments.AlfaBank.Tests/**'
+    paths:
+      - 'src/Spoleto.FastPayments.AlfaBank/**'
+      - 'LICENSE'
+      - 'README.md'
+      #- 'src/**'
+      #- '!src/**.Tests/**'
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+
+  Build-Tests-Publish:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+
+    - id: modified
+      uses: pheel/path-watcher-action@v1
+      with:
+          #github_token: ${{ secrets.GITHUB_TOKEN }} # no need to set this secret, it is always available!
+          paths: 'src/Spoleto.FastPayments.AlfaBank/**'
+  
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+
     - name: Restore dependencies
-      run: dotnet restore src/Spoleto.FastPayments.AlfaBank/Spoleto.FastPayments.AlfaBank.csproj
+      run: dotnet restore
+
     - name: Build
-      run: dotnet build src/Spoleto.FastPayments.AlfaBank/Spoleto.FastPayments.AlfaBank.csproj --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore
+
+    - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
+      name: Test with the dotnet CLI
+      run: dotnet test --no-restore --logger "trx;LogFileName=test-results.trx"
+
+    - if: steps.modified.outputs.modified && ( success() || failure() ) # run this step if there are changes in the source project and even previous step failed
+      name: Tests report
+      uses: dorny/test-reporter@v1.5.0
+      with:
+        name: Test results
+        path: '**/test-results.trx'
+        reporter: dotnet-trx
+
     - name: Publish to Nuget
       uses: alirezanet/publish-nuget@v3.0.4
       with:
@@ -32,3 +61,4 @@ jobs:
           INCLUDE_SYMBOLS: true
           # Flag to toggle git tagging, enabled by default
           TAG_COMMIT: false
+

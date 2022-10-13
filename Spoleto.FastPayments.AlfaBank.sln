@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkFlow", "WorkFlow", "{B211166D-EA5D-4579-BC46-C390CF29085F}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\publish-to-nuget.yml = .github\workflows\publish-to-nuget.yml
+		.github\workflows\run-tests-by-tests.yml = .github\workflows\run-tests-by-tests.yml
 	EndProjectSection
 EndProject
 Global
