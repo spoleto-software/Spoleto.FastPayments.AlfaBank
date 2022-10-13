@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Spoleto.Cryptography.Rsa;
+﻿using System.Runtime.InteropServices;
+using Microsoft.Extensions.DependencyInjection;
 using Spoleto.FastPayments.AlfaBank.Helpers;
 using Spoleto.FastPayments.AlfaBank.Models;
 using Spoleto.FastPayments.AlfaBank.Providers;
@@ -18,28 +18,6 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             services.AddTransient<IAlfaProvider, AlfaProvider>();
 
             _serviceProvider = services.BuildServiceProvider();
-        }
-
-        [Test]
-        public void CryptoVerify()
-        {
-            // Arrange
-            var model = new QRCodeRequestModel
-            {
-                TerminalNumber = "90000018",
-                Amount = 10000000,
-                Currency = "RUB",
-                PaymentPurpose = "Оплата тестовой покупки 5"
-            };
-            var json = JsonHelper.ToJson(model);
-            var certificate = AlfaOption.DemoOption.Certificate;
-
-            // Act
-            var signedData = RSACryptoPemHelper.Sign(certificate.PrivateKey, json);
-            var isVerified = RSACryptoPemHelper.Verify(certificate.AlfaPublicBody, json, signedData);
-
-            // Assert
-            Assert.That(isVerified, Is.True);
         }
 
         [Test]
@@ -67,7 +45,6 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
                 QRCodeQueryData = new QRCodeQueryData { NotificationUrl = "http://service-test.cashmere.ru/alfaservice" }
             }, false);
 
-            var image = ImageHelper.ConvertToImage(qrCode.ImageBytes);
 
             //qrCode.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
 
@@ -76,7 +53,11 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             {
                 Assert.That(qrCode, Is.Not.Null);
                 Assert.That(qrCode.Image, Is.Not.Null);
-                //Assert.That(image, Is.Not.Null);
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    var image = ImageHelper.ConvertToImage(qrCode.ImageBytes);
+                    Assert.That(image, Is.Not.Null);
+                }
             });
         }
 
@@ -216,8 +197,6 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
                 Width = "1000"
             }, false);
 
-            var image = ImageHelper.ConvertToImage(qrCodeCashLink.ContentBytes);
-
             //qrCodeCashLink.SaveImageToFile($@"C:\Alfa\qrcode_{DateTime.Now.Ticks}.png");
 
             // Assert
@@ -225,7 +204,11 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             {
                 Assert.That(qrCodeCashLink, Is.Not.Null);
                 Assert.That(qrCodeCashLink.Content, Is.Not.Null);
-                //Assert.That(image, Is.Not.Null);
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    var image = ImageHelper.ConvertToImage(qrCodeCashLink.ContentBytes);
+                    Assert.That(image, Is.Not.Null);
+                }
             });
         }
 
