@@ -34,7 +34,7 @@ jobs:
         files: '["**/*.json"]'
       env:
           ServiceUrl: ${{secrets.SERVICEURL}}
-          Name: ${{secrets.NAME}}
+          NAME: ${{secrets.NAME}}
           PrivateKey: ${{secrets.PRIVATEKEY}}
           PublicBody: ${{secrets.PUBLICBODY}}
           AlfaAlias: ${{secrets.ALFAALIAS}}
