@@ -43,7 +43,7 @@ jobs:
       name: Replace tokens # replace tokens in appsettings.json with real data
       uses: cschleiden/replace-tokens@v1.1
       with:
-        files: '["src/Spoleto.FastPayments.AlfaBank.Tests/*.json"]'
+        files: '["**/*.json"]'
       env:
           ServiceUrl: ${{secrets.SERVICEURL}}
           Name: ${{secrets.NAME}}
