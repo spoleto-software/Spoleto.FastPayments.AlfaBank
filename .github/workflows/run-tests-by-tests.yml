@@ -31,7 +31,7 @@ jobs:
     - name: Replace tokens # replace tokens in appsettings.json with real data
       uses: cschleiden/replace-tokens@v1.1
       with:
-        files: '["**/*.json"]'
+        files: 'appsettings.json'
       env:
           ServiceUrl: ${{secrets.SERVICEURL}}
           NAME: ${{secrets.NAME}}
