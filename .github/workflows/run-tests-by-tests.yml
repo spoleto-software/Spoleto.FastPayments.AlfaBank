@@ -25,13 +25,13 @@ jobs:
     - name: Replace tokens # replace tokens in appsettings.json with real data
       uses: cschleiden/replace-tokens@v1.1
       with:
-        files: 'appsettings.json'
+        files: '["**/*.json"]'
       env:
-          ServiceUrl: ${{secrets.SERVICEURL}}
+          #ServiceUrl: ${{secrets.SERVICEURL}}
           NAME: ${{secrets.NAME}}
-          PrivateKey: ${{secrets.PRIVATEKEY}}
-          PublicBody: ${{secrets.PUBLICBODY}}
-          AlfaAlias: ${{secrets.ALFAALIAS}}
+          #PrivateKey: ${{secrets.PRIVATEKEY}}
+          #PublicBody: ${{secrets.PUBLICBODY}}
+          #AlfaAlias: ${{secrets.ALFAALIAS}}
 
     - name: Restore dependencies
       run: dotnet restore
