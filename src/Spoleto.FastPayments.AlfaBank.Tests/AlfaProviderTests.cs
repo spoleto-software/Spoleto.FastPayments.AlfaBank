@@ -6,6 +6,9 @@ using Spoleto.FastPayments.AlfaBank.Providers;
 
 namespace Spoleto.FastPayments.AlfaBank.Tests
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AlfaProviderTests
     {
         private ServiceProvider _serviceProvider;
