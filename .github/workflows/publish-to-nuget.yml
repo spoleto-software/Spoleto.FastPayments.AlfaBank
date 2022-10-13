@@ -32,24 +32,24 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-
     - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
       name: Replace tokens # replace tokens in appsettings.json with real data
       uses: cschleiden/replace-tokens@v1.1
       with:
         files: '["**/*.json"]'
       env:
-          ServiceUrl: ${{secrets.SERVICEURL}}
-          Name: ${{secrets.NAME}}
-          PrivateKey: ${{secrets.PRIVATEKEY}}
-          PublicBody: ${{secrets.PUBLICBODY}}
-          AlfaAlias: ${{secrets.ALFAALIAS}}
+          SERVICE_URL: ${{secrets.SERVICE_URL}}
+          CERTIFICATE_NAME: ${{secrets.CERTIFICATE_NAME}}
+          CERTIFICATE_PRIVATE_KEY: ${{secrets.CERTIFICATE_PRIVATE_KEY}}
+          CERTIFICATE_PUBLIC_BODY: ${{secrets.CERTIFICATE_PUBLIC_BODY}}
+          CERTIFICATE_ALFA_ALIAS: ${{secrets.CERTIFICATE_ALFA_ALIAS}}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
 
     - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
       name: Test with the dotnet CLI

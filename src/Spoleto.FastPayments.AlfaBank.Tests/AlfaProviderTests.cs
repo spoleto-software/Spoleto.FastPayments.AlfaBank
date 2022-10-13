@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
+using Spoleto.Cryptography.Rsa;
 using Spoleto.FastPayments.AlfaBank.Helpers;
 using Spoleto.FastPayments.AlfaBank.Models;
 using Spoleto.FastPayments.AlfaBank.Providers;
@@ -21,6 +22,28 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             _serviceProvider = services.BuildServiceProvider();
 
             _settings = ConfigurationHelper.GetAlfaSettings();
+        }
+
+        [Test]
+        public void CryptoVerify()
+        {
+            // Arrange
+            var model = new QRCodeRequestModel
+            {
+                TerminalNumber = "90000018",
+                Amount = 10000000,
+                Currency = "RUB",
+                PaymentPurpose = "Оплата тестовой покупки 5"
+            };
+            var json = JsonHelper.ToJson(model);
+            var certificate = _settings.Certificate;
+
+            // Act
+            var signedData = RSACryptoPemHelper.Sign(certificate.PrivateKey, json);
+            var isVerified = RSACryptoPemHelper.Verify(certificate.PublicBody, json, signedData);
+
+            // Assert
+            Assert.True(isVerified);
         }
 
         [Test]
