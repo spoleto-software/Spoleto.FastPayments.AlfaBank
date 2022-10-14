@@ -1,12 +1,12 @@
 ﻿namespace Spoleto.FastPayments.AlfaBank
 {
     /// <summary>
-    /// Различные константы.
+    /// The project constants.
     /// </summary>
     public static class Constants
     {
         /// <summary>
-        /// Успешный код ответа от хоста Альфа-Банка.
+        /// The code for a successful response from the Alfa-Bank host.
         /// </summary>
         public const string SuccessCode = "0";
     }

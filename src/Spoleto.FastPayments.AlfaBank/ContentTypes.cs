@@ -1,7 +1,7 @@
 ﻿namespace Spoleto.FastPayments.AlfaBank
 {
     /// <summary>
-    /// Content types.
+    /// The content types.
     /// </summary>
     public static class ContentTypes
     {
