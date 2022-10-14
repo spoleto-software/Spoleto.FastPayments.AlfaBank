@@ -16,9 +16,9 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
                .Build();
         }
 
-        public static AlfaOption GetAlfaSettings()
+        public static AlfaOptionExtended GetAlfaSettings()
         {
-            var settings = _config.GetSection(nameof(AlfaOption)).Get<AlfaOption>();
+            var settings = _config.GetSection(nameof(AlfaOptionExtended)).Get<AlfaOptionExtended>();
 
             settings.Certificate.PublicBody = Encoding.UTF8.GetString(Convert.FromBase64String(settings.Certificate.PublicBody));
             settings.Certificate.PrivateKey = Encoding.UTF8.GetString(Convert.FromBase64String(settings.Certificate.PrivateKey));

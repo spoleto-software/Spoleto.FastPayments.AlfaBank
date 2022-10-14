@@ -45,6 +45,8 @@ jobs:
           CERTIFICATE_PRIVATE_KEY: ${{secrets.CERTIFICATE_PRIVATE_KEY}}
           CERTIFICATE_PUBLIC_BODY: ${{secrets.CERTIFICATE_PUBLIC_BODY}}
           CERTIFICATE_ALFA_ALIAS: ${{secrets.CERTIFICATE_ALFA_ALIAS}}
+          ALFA_DEMO_TERMINAL_NUMBER: ${{secrets.ALFA_DEMO_TERMINAL_NUMBER}}
+          CALLBACK_URL: ${{secrets.CALLBACK_URL}}
 
     - name: Restore dependencies
       run: dotnet restore
