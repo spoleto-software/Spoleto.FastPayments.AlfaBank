@@ -58,7 +58,7 @@ jobs:
 
     - if: steps.logic_tests_modified.outputs.modified && ( success() || failure() ) # run this step if there are changes in the logic or tests and even previous step failed
       name: Tests report
-      uses: dorny/test-reporter@v1.5.0
+      uses: dorny/test-reporter@v1.6.0
       with:
         name: Test results
         path: '**/test-results.trx'
