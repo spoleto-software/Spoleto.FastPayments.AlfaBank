@@ -4,11 +4,9 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'src/Spoleto.FastPayments.AlfaBank/**'
+      - 'src/**'
       - 'LICENSE'
       - 'README.md'
-      #- 'src/**'
-      #- '!src/**.Tests/**'
   pull_request:
     branches: [ main ]
 
@@ -21,18 +19,22 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - id: modified
+    - id: logic_modified # check if the logic or LICENCE or README.md are changed
       uses: pheel/path-watcher-action@v1
       with:
-          #github_token: ${{ secrets.GITHUB_TOKEN }} # no need to set this secret, it is always available!
-          paths: 'src/Spoleto.FastPayments.AlfaBank/**'
+          paths: 'src/Spoleto.FastPayments.AlfaBank/**,LICENSE,README.md'
+
+    - id: logic_tests_modified # check if the logic or tests are changed
+      uses: pheel/path-watcher-action@v1
+      with:
+          paths: 'src/Spoleto.FastPayments.AlfaBank/**,src/*.Tests/**'
   
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
 
-    - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
+    - if: steps.logic_tests_modified.outputs.modified # run this step if there are changes in the logic or tests
       name: Replace tokens # replace tokens in appsettings.json with real data
       uses: cschleiden/replace-tokens@v1.1
       with:
@@ -50,12 +52,11 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
-
-    - if: steps.modified.outputs.modified # run this step if there are changes in the source project 
+    - if: steps.logic_tests_modified.outputs.modified # run this step if there are changes in the logic or tests 
       name: Test with the dotnet CLI
       run: dotnet test --no-restore --logger "trx;LogFileName=test-results.trx"
 
-    - if: steps.modified.outputs.modified && ( success() || failure() ) # run this step if there are changes in the source project and even previous step failed
+    - if: steps.logic_tests_modified.outputs.modified && ( success() || failure() ) # run this step if there are changes in the logic or tests and even previous step failed
       name: Tests report
       uses: dorny/test-reporter@v1.5.0
       with:
@@ -63,7 +64,8 @@ jobs:
         path: '**/test-results.trx'
         reporter: dotnet-trx
 
-    - name: Publish to Nuget
+    - if: steps.logic_modified.outputs.modified # run this step if there are changes in the logic or LICENCE or README.md
+      name: Publish to Nuget
       uses: alirezanet/publish-nuget@v3.0.4
       with:
           # Filepath of the project to be packaged, relative to root of repository

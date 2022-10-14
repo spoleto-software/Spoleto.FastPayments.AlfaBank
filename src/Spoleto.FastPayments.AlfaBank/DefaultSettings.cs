@@ -3,7 +3,7 @@
 namespace Spoleto.FastPayments.AlfaBank
 {
     /// <summary>
-    /// The default settings.
+    /// The default settings for the project.
     /// </summary>
     public static class DefaultSettings
     {
