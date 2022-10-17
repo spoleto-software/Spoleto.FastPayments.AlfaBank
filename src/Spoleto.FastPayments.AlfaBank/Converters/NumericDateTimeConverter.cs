@@ -11,6 +11,8 @@ namespace Spoleto.FastPayments.AlfaBank.Converters
     {
         private static readonly string _format = "yyyyMMddHHmmss";
 
+        public override bool CanConvert(Type typeToConvert) => typeToConvert == typeof(DateTime);
+
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
