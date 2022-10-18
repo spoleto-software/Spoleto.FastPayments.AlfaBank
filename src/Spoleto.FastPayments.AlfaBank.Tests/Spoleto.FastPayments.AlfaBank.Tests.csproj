@@ -32,7 +32,7 @@
         <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
         <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
         <PackageReference Include="coverlet.collector" Version="3.1.2" />
-        <PackageReference Include="Spoleto.Cryptography.RSA" Version="1.10.12.1420" />
+        <PackageReference Include="Spoleto.Cryptography.RSA" Version="1.10.18.722" />
         <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
