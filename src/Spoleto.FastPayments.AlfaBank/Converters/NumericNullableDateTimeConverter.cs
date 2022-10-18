@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Spoleto.FastPayments.AlfaBank.Converters
 {
-    //TODO: После обновление на NET6+ удалить этот конвертер и использовать базовый NumericDateTimeConverter
+    //TODO: После обновление на NET6+ удалить этот конвертер и использовать базовый NumericDateTimeConverter.
     /// <summary>
-    /// JSON converter with support datetime as int.<br/>
+    /// JSON converter with support datetime as int.<br/> 
     /// TODO: После обновление на NET6+ удалить этот конвертер и использовать базовый <see cref="NumericDateTimeConverter"/>.
     /// </summary>
     public class NumericNullableDateTimeConverter : JsonConverter<DateTime?>
