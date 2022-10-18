@@ -49,5 +49,3 @@ namespace Spoleto.FastPayments.AlfaBank.Converters
         }
     }
 }
-
-}
