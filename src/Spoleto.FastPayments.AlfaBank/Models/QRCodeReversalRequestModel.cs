@@ -49,7 +49,7 @@ namespace Spoleto.FastPayments.AlfaBank.Models
         /// <summary>
         /// Дата и время отменяемого платежа (ГГГГММДДччммсс).
         /// </summary>
-        [JsonConverter(typeof(NumericDateTimeConverter))]
+        [JsonConverter(typeof(NumericNullableDateTimeConverter))]
         [JsonPropertyName("trxDT")]
         public DateTime? TrxDateTime { get; set; }
 

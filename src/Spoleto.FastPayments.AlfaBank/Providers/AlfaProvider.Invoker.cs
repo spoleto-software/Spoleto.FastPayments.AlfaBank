@@ -18,7 +18,7 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent, bool throwIfErrorCodeIsFailed) where T : IAlfaResponse
         {
             var certificate = settings.Certificate.AlfaPublicBody != null
-                ? _certificateCache.GetOrAdd(settings.Certificate.AlfaPublicBody, x => RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey))
+                ? _certificateCache.GetOrAdd(settings.Certificate.AlfaPublicBody, x => RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey, settings.Certificate.AlfaPassword))
                 : null;
 
             var client = HttpClientHelper.CreateClient(certificate);// _httpClientFactory.CreateClient();

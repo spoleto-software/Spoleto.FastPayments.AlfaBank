@@ -32,7 +32,6 @@ namespace Spoleto.FastPayments.AlfaBank.Models
         /// </summary>
         public string Password { get; set; }
 
-
         /// <summary>
         /// Тело сертификата.
         /// </summary>
@@ -44,13 +43,18 @@ namespace Spoleto.FastPayments.AlfaBank.Models
         public string PrivateKey { get; set; }
 
         /// <summary>
-        /// Сертификат Альфа-Банка
+        /// Сертификат Альфа-Банка.
         /// </summary>
         public string AlfaPublicBody { get; set; }
 
         /// <summary>
-        /// Приватный ключ сертификата Альфа-Банка
+        /// Приватный ключ сертификата Альфа-Банка.
         /// </summary>
         public string AlfaPrivateKey { get; set; }
+
+        /// <summary>
+        /// Пароль к сертификату Альфа-Банка.
+        /// </summary>
+        public string AlfaPassword { get; set; }
     }
 }

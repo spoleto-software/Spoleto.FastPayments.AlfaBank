@@ -48,7 +48,7 @@ namespace Spoleto.FastPayments.AlfaBank.Models
         /// <summary>
         /// Дата и время платежа в AnyWay (ГГГГММДДччммсс).
         /// </summary>
-        [JsonConverter(typeof(NumericDateTimeConverter))]
+        [JsonConverter(typeof(NumericNullableDateTimeConverter))]
         [JsonPropertyName("trxDT")]
         [Required]
         public DateTime? TrxDateTime { get; set; }
