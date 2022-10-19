@@ -9,10 +9,5 @@
         /// Адрес сервиса Альфа-Банка.
         /// </summary>
         public string ServiceUrl { get; set; }
-
-        /// <summary>
-        /// Сертификат для подписи запроса.
-        /// </summary>
-        public Certificate Certificate { get; set; }
     }
 }

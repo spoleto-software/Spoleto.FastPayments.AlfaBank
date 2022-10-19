@@ -4,6 +4,11 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
 {
     internal class AlfaOptionExtended : AlfaOption
     {
+        /// <summary>
+        /// Сертификат для подписи запроса.
+        /// </summary>
+        public Certificate Certificate { get; set; }
+
         public string AlfaTerminalNumber { get; set; }
 
         public string CallBackUrl { get; set; }

@@ -15,16 +15,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
     {
         private readonly ConcurrentDictionary<string, X509Certificate2> _certificateCache = new();
 
-        private async Task<T> InvokeAsync<T>(AlfaOption settings, Uri uri, HttpMethod method, string requestJsonContent, bool throwIfErrorCodeIsFailed) where T : IAlfaResponse
+        private async Task<T> InvokeAsync<T>(AlfaOption settings, Certificate certificate, Uri uri, HttpMethod method, string requestJsonContent, bool throwIfErrorCodeIsFailed) where T : IAlfaResponse
         {
-            var certificate = settings.Certificate.AlfaPublicBody != null
-                ? _certificateCache.GetOrAdd(settings.Certificate.AlfaPublicBody, x => RSACryptoPemHelper.CreateCertificate(settings.Certificate.AlfaPublicBody, settings.Certificate.AlfaPrivateKey, settings.Certificate.AlfaPassword))
+            var rsaCertificate = certificate.AlfaPublicBody != null
+                ? _certificateCache.GetOrAdd(certificate.AlfaPublicBody, x => RSACryptoPemHelper.CreateCertificate(certificate.AlfaPublicBody, certificate.AlfaPrivateKey, certificate.AlfaPassword))
                 : null;
 
-            var client = HttpClientHelper.CreateClient(certificate);// _httpClientFactory.CreateClient();
+            var client = HttpClientHelper.CreateClient(rsaCertificate);// _httpClientFactory.CreateClient();
 
             using var requestMessage = new HttpRequestMessage(method, uri);
-            InitRequestHeaders(requestMessage, settings, requestJsonContent);
+            InitRequestHeaders(requestMessage, certificate, requestJsonContent);
 
             requestMessage.Content = new StringContent(requestJsonContent, DefaultSettings.Encoding, DefaultSettings.ContentType);
             using var responseMessage = await client.SendAsync(requestMessage).ConfigureAwait(false);
@@ -80,14 +80,14 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
             //}
         }
 
-        private void InitRequestHeaders(HttpRequestMessage requestMessage, AlfaOption settings, string requestJsonContent)
+        private void InitRequestHeaders(HttpRequestMessage requestMessage, Certificate certificate, string requestJsonContent)
         {
             requestMessage.ConfigureRequestMessage();
 
-            var signedJsonContent = RSACryptoPemHelper.Sign(settings.Certificate.PrivateKey, requestJsonContent);
+            var signedJsonContent = RSACryptoPemHelper.Sign(certificate.PrivateKey, requestJsonContent);
 
             requestMessage.Headers.TryAddWithoutValidation("Authorization", signedJsonContent);
-            requestMessage.Headers.Add("key-name", settings.Certificate.AlfaAlias);
+            requestMessage.Headers.Add("key-name", certificate.AlfaAlias);
         }
 
 

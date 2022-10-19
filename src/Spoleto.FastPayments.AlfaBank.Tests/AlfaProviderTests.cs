@@ -53,7 +53,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var provider = _serviceProvider.GetService<IAlfaProvider>();
 
             // Act
-            var qrCode = provider.GetQRCode(_settings, new()
+            var qrCode = provider.GetQRCode(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Amount = _settings.Amount,
@@ -94,7 +94,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var provider = _serviceProvider.GetService<IAlfaProvider>();
 
             // Act
-            var qrCode = provider.GetQRCode(_settings, new()
+            var qrCode = provider.GetQRCode(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Amount = _settings.Amount,
@@ -105,7 +105,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
 
             Thread.Sleep(500);
 
-            var qrCodeStatus = provider.GetQRCodeStatus(_settings, new()
+            var qrCodeStatus = provider.GetQRCodeStatus(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 QrcId = qrCode.QrcId
@@ -129,7 +129,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var messageId = "MyUniqRequest";
 
             // Act
-            var qrCode = provider.GetQRCode(_settings, new()
+            var qrCode = provider.GetQRCode(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Amount = _settings.Amount,
@@ -140,7 +140,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             Thread.Sleep(500);
 
             // test for a fake payment:
-            var qrCodeReversalData = provider.GetQRCodeReversalData(_settings, new()
+            var qrCodeReversalData = provider.GetQRCodeReversalData(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 QrcId = qrCode.QrcId,
@@ -169,7 +169,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var messageId = "MyUniqRequest";
 
             // Act
-            var qrCode = provider.GetQRCode(_settings, new()
+            var qrCode = provider.GetQRCode(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Amount = _settings.Amount,
@@ -191,7 +191,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             //});
 
             // test for a fake payment:
-            var qrCodeReversal = provider.GetQRCodeReversal(_settings, new()
+            var qrCodeReversal = provider.GetQRCodeReversal(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 QrcId = qrCode.QrcId,
@@ -219,7 +219,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var provider = _serviceProvider.GetService<IAlfaProvider>();
 
             // Act
-            var qrCodeCashLink = provider.RegQRСodeCashLink(_settings, new()
+            var qrCodeCashLink = provider.RegQRСodeCashLink(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Height = "1000",
@@ -249,14 +249,14 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var paymentPurpose = _settings.CashLinkPaymentPurpose;
 
             // Act
-            var qrCodeCashLink = provider.RegQRСodeCashLink(_settings, new()
+            var qrCodeCashLink = provider.RegQRСodeCashLink(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Height = "1000",
                 Width = "1000"
             }, false);
 
-            var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(_settings, new()
+            var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Amount = _settings.Amount,
@@ -265,6 +265,12 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
                 QrcId = qrCodeCashLink.QrcId,
                 QRCodeQueryData = new QRCodeQueryData { NotificationUrl = _settings.CallBackUrl },
                 QRTotal = 10
+            }, false);
+
+            var qrCodeStatus = provider.GetQRCodeStatus(_settings, _settings.Certificate, new()
+            {
+                TerminalNumber = _settings.AlfaTerminalNumber,
+                Payrrn = qrCodeActivateCashLink.Payrrn,
             }, false);
 
             // Assert
@@ -286,14 +292,14 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
             var paymentPurpose = _settings.CashLinkPaymentPurpose;
 
             // Act
-            var qrCodeCashLink = provider.RegQRСodeCashLink(_settings, new()
+            var qrCodeCashLink = provider.RegQRСodeCashLink(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Height = "1000",
                 Width = "1000"
             }, false);
 
-            var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(_settings, new()
+            var qrCodeActivateCashLink = provider.ActivateQRСodeCashLink(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 Amount = _settings.Amount,
@@ -305,7 +311,7 @@ namespace Spoleto.FastPayments.AlfaBank.Tests
 
             Thread.Sleep(500);
 
-            var qrCodeDeactivateCashLink = provider.DeactivateQRСodeCashLink(_settings, new()
+            var qrCodeDeactivateCashLink = provider.DeactivateQRСodeCashLink(_settings, _settings.Certificate, new()
             {
                 TerminalNumber = _settings.AlfaTerminalNumber,
                 QrcId = qrCodeCashLink.QrcId

@@ -26,15 +26,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         /// Запрос QR-кода.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRCodeResponseModel> GetQRCodeAsync(AlfaOption settings, QRCodeRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRCodeResponseModel> GetQRCodeAsync(AlfaOption settings, Certificate certificate, QRCodeRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRCodeResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRCodeResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
@@ -43,15 +44,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         /// Запрос статуса оплаты QR-кода.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRCodeStatusResponseModel> GetQRCodeStatusAsync(AlfaOption settings, QRCodeStatusRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRCodeStatusResponseModel> GetQRCodeStatusAsync(AlfaOption settings, Certificate certificate, QRCodeStatusRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRCodeStatusResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRCodeStatusResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
@@ -73,15 +75,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         /// </list>
         /// </remarks>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRCodeReversalDataResponseModel> GetQRCodeReversalDataAsync(AlfaOption settings, QRCodeReversalDataRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRCodeReversalDataResponseModel> GetQRCodeReversalDataAsync(AlfaOption settings, Certificate certificate, QRCodeReversalDataRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRCodeReversalDataResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRCodeReversalDataResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
@@ -103,15 +106,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         /// </list>
         /// </remarks>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRCodeReversalResponseModel> GetQRCodeReversalAsync(AlfaOption settings, QRCodeReversalRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRCodeReversalResponseModel> GetQRCodeReversalAsync(AlfaOption settings, Certificate certificate, QRCodeReversalRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRCodeReversalResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRCodeReversalResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
@@ -120,15 +124,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         ///  Регистрация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRСodeCashLinkResponseModel> RegQRСodeCashLinkAsync(AlfaOption settings, QRСodeCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRСodeCashLinkResponseModel> RegQRСodeCashLinkAsync(AlfaOption settings, Certificate certificate, QRСodeCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRСodeCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRСodeCashLinkResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
@@ -137,15 +142,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         /// Активация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRСodeActivateCashLinkResponseModel> ActivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeActivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRСodeActivateCashLinkResponseModel> ActivateQRСodeCashLinkAsync(AlfaOption settings, Certificate certificate, QRСodeActivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRСodeActivateCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRСodeActivateCashLinkResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
@@ -154,15 +160,16 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
         /// Деактивация Кассовой ссылки СБП.
         /// </summary>
         /// <param name="settings">Настройки для API.</param>
+        /// <param name="certificate">Сертификат для подписи запроса.</param>
         /// <param name="requestModel">Параметры запроса.</param>
         /// <param name="throwIfErrorCodeIsFailed">Выкинуть исключение, если пришел ответ со статусом не "ОК" (ErrorCode != "0").</param>
-        public async Task<QRСodeDeactivateCashLinkResponseModel> DeactivateQRСodeCashLinkAsync(AlfaOption settings, QRСodeDeactivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
+        public async Task<QRСodeDeactivateCashLinkResponseModel> DeactivateQRСodeCashLinkAsync(AlfaOption settings, Certificate certificate, QRСodeDeactivateCashLinkRequestModel requestModel, bool throwIfErrorCodeIsFailed)
         {
             var uri = new Uri(settings.ServiceUrl);
 
             var jsonModel = JsonHelper.ToJson(requestModel);
 
-            var result = await InvokeAsync<QRСodeDeactivateCashLinkResponseModel>(settings, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
+            var result = await InvokeAsync<QRСodeDeactivateCashLinkResponseModel>(settings, certificate, uri, HttpMethod.Post, jsonModel, throwIfErrorCodeIsFailed).ConfigureAwait(false);
 
             return result;
         }
