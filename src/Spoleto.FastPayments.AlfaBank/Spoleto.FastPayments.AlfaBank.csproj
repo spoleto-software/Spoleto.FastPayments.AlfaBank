@@ -32,7 +32,7 @@ The project for integration with Fast Payment System based on the AlfaBank host.
         <RepositoryUrl>https://github.com/spoleto-software/Spoleto.FastPayments.AlfaBank</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageTags>AlfaBank; Fast Payment System; Система быстрых платежей</PackageTags>
+        <PackageTags>АльфаБанк; Альфа-Банк; AlfaBank; Fast Payment System; Система быстрых платежей</PackageTags>
         <Copyright>Copyright © $([System.DateTime]::Now.Year.ToString())</Copyright>
         <PackageReleaseNotes></PackageReleaseNotes>
         <Version>$([System.DateTime]::Now.AddYears(-2021).Year.ToString()).$([System.DateTime]::Now.ToString("MM.dd.HHmm"))</Version>
