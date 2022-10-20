@@ -21,7 +21,7 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
                 ? _certificateCache.GetOrAdd(certificate.AlfaPublicBody, x => RSACryptoPemHelper.CreateCertificate(certificate.AlfaPublicBody, certificate.AlfaPrivateKey, certificate.AlfaPassword))
                 : null;
 
-            var client = HttpClientHelper.CreateClient(rsaCertificate);// _httpClientFactory.CreateClient();
+            var client = HttpClientHelper.CreateClient(rsaCertificate);
 
             using var requestMessage = new HttpRequestMessage(method, uri);
             InitRequestHeaders(requestMessage, certificate, requestJsonContent);
@@ -32,7 +32,7 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
             if (responseMessage.IsSuccessStatusCode)
             {
                 var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                VerifyResponse(settings, responseMessage, result);
+                VerifyResponse(certificate, responseMessage, result);
 
                 if (String.IsNullOrEmpty(result))
                     return default;
@@ -64,19 +64,22 @@ namespace Spoleto.FastPayments.AlfaBank.Providers
             throw exception;
         }
 
-        //check and maybe remove
-        private void VerifyResponse(AlfaOption settings, HttpResponseMessage responseMessage, string result)
+        private void VerifyResponse(Certificate certificate, HttpResponseMessage responseMessage, string result)
         {
-            var auth = responseMessage.Headers.TryGetValues("Authorization", out var values) ? values.FirstOrDefault() : null;
-            if (auth == null)
-            {
-                throw new Exception("Не найдены заголовки в ответе от сервиса Альфа-Банка для авторизации ответа.");
-            }
-
-            //var isVerified = CryptoHelper.VerifyByCore(settings.Certificate, result, auth);
-            //if (!isVerified)
+            //var auth = responseMessage.Headers.TryGetValues("Authorization", out var values) ? values.FirstOrDefault() : null;
+            //if (auth == null)
             //{
-            //    //throw new Exception("Не пройдена проверка ответа от сервиса Альфа-Банка с помощью сертификата.");
+            //    throw new Exception("Не найдены заголовки в ответе от сервиса Альфа-Банка для авторизации ответа.");
+            //}
+
+            // Шифруется другим сертификатом: тем который установлен на хосте Альфа-Банка.
+            //if (certificate.AlfaPublicBody != null)
+            //{
+            //    var isVerified = RSACryptoPemHelper.Verify(certificate.AlfaPublicBody, result, auth, certificate.AlfaPassword);
+            //    if (!isVerified)
+            //    {
+            //        throw new Exception("Не пройдена проверка ответа от сервиса Альфа-Банка с помощью сертификата.");
+            //    }
             //}
         }
 

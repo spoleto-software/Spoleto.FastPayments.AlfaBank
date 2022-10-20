@@ -26,10 +26,10 @@ namespace Spoleto.FastPayments.AlfaBank.Helpers
                         ClientCertificateOptions = ClientCertificateOption.Manual,
                         SslProtocols = SslProtocols.Tls12,
                         ServerCertificateCustomValidationCallback =
-                    (sender, cert, chain, sslPolicyErrors) =>
-                    {
-                        return true;
-                    }
+                        (sender, cert, chain, sslPolicyErrors) =>
+                        {
+                            return true;
+                        }
                     };
 
                     handler.ClientCertificates.Add(certificate);
